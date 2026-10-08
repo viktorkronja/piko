@@ -89,7 +89,7 @@ public class AddReelButton {
     private static void addExternalDownloadButton(Context context, Object helperObject, Object mediaObject, int currentMediaIndex){
         String icon = UI.DRAWABLE_DOWNLOAD_ICON;
         ReelButton reelButton = new ExternalDownloadButton(context, mediaObject, currentMediaIndex);
-        String buttonText = str("piko_download_with_external_downloader");
+        String buttonText = str("piko_send_to_link_diary");
 
         ReelOverflowButton reelOverflowButton = new ReelOverflowButton(icon,reelButton,buttonText);
 

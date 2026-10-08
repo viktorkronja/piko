@@ -726,17 +726,9 @@ public class ScreenBuilder {
         if(SettingsStatus.downloadWithExternalDownloader) {
             addPreference(
                     helper.switchPreference(
-                            str("piko_download_with_external_downloader"),
+                            str("piko_send_to_link_diary"),
                             "",
                             Settings.DOWNLOAD_WITH_EXTERNAL_DOWNLOADER
-                    )
-            );
-
-            addPreference(
-                    helper.editTextPreference(
-                            str("piko_external_downloader_package_name"),
-                            Pref.externalDownloaderPackageName(),
-                            Settings.EXTERNAL_DOWNLOADER_PACKAGE_NAME
                     )
             );
         }

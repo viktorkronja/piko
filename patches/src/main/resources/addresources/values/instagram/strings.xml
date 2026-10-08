@@ -162,6 +162,8 @@
     <string name="piko_external_downloader_package_name">External downloader package name</string>
     <string name="piko_external_downloader_package_name_not_found">External downloader package name not found</string>
     <string name="piko_external_downloader_package_name_not_set">Please set the external downloader package name</string>
+    <string name="piko_send_to_link_diary">Send to Link Diary</string>
+    <string name="piko_link_diary_not_installed">Link Diary is not installed</string>
     <string name="piko_download_voice_media">Download voice message</string>
 
     <!-- Posts Section -->

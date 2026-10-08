@@ -136,7 +136,7 @@ public class FeedButton {
                 addDownloadButton(buttonAdderObject, buttonlist);
             }
             if(Pref.downloadWithExternalDownloader()) {
-                addButton(MediaOption$Option.PIKO_EXTERNAL_DOWNLOADER, str("piko_download_with_external_downloader"), buttonAdderObject, buttonlist);
+                addButton(MediaOption$Option.PIKO_EXTERNAL_DOWNLOADER, str("piko_send_to_link_diary"), buttonAdderObject, buttonlist);
             }
             if(Pref.moreOptionsOnPost()) {
                 addButton(MediaOption$Option.PIKO_MORE_POST_OPTION, str("piko_more_options"), buttonAdderObject, buttonlist);
@@ -167,7 +167,7 @@ public class FeedButton {
                 MoreOptionsOnPostPatch.postMoreOptions(context, userSession, mediaObject, currentMediaIndex);
 
             } else if (SettingsStatus.downloadWithExternalDownloader && pressedButton.equals(MediaOption$Option.PIKO_EXTERNAL_DOWNLOADER)) {
-                DownloadUtils.externalDownloader(mediaObject,currentMediaIndex);
+                DownloadUtils.sendToLinkDiary(mediaObject,currentMediaIndex);
 
             }
 

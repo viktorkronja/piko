@@ -18,8 +18,8 @@ import app.morphe.patcher.patch.bytecodePatch
 @Suppress("unused")
 val externalDownloaderPatch =
     bytecodePatch(
-        name = "External downloader",
-        description = "Adds support to share post links directly to external downloader",
+        name = "Send to Link Diary",
+        description = "Adds a menu item that sends the post (link, caption, author and media links) to the Link Diary app",
         default = true,
     ) {
         compatibleWith(COMPATIBILITY_INSTAGRAM)

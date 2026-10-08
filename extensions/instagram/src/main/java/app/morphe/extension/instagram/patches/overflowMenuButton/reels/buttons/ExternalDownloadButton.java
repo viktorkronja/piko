@@ -18,6 +18,6 @@ public class ExternalDownloadButton extends ReelButton {
 
     @Override
     public void onClick(View view) {
-        DownloadUtils.externalDownloader(this.mediaObject, this.currentMediaIndex);
+        DownloadUtils.sendToLinkDiary(this.mediaObject, this.currentMediaIndex);
     }
 }

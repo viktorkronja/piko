@@ -11,8 +11,10 @@ import static app.morphe.extension.instagram.utils.IgStr.str;
 
 import android.os.Build;
 import android.app.Dialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.app.Activity;
 
 import java.util.List;
@@ -239,23 +241,65 @@ public class DownloadUtils {
         downloader.enqueue(new DownloadRequest(mediaUrl, subFolder, fileName));
     }
 
-    public static void externalDownloader(Object mediaObject, int currentMediaIndex){
+    // Link Diary (github.com/viktorkronja/link-diary) reads these extras next to the link.
+    private static final String LINK_DIARY_PACKAGE = "com.linkdiary.app";
+    private static final String EXTRA_CAPTION = "com.linkdiary.extra.CAPTION";
+    private static final String EXTRA_UPLOADER = "com.linkdiary.extra.UPLOADER";
+    private static final String EXTRA_MEDIA_URLS = "com.linkdiary.extra.MEDIA_URLS";
+
+    /**
+     * "Send to Link Diary": hands the post to the Link Diary app - its link, caption, author
+     * and the CDN links of every slide, all read from the media object the app already has,
+     * so this makes no request to Instagram. Link Diary fetches the media on the phone (as
+     * the Download button does) and uploads it to its server.
+     */
+    public static void sendToLinkDiary(Object mediaObject, int currentMediaIndex){
         try {
-            String packageName = Pref.externalDownloaderPackageName();
-            packageName = packageName == null ? "" : packageName.trim();
-            if(packageName.isEmpty()){
-                PikoUtils.toast(str("piko_external_downloader_package_name_not_set"));
-                return;
+            MediaData post = new MediaData(mediaObject);
+            // The whole post is sent, so the link points at the post, not one slide of it.
+            String link = Links.generatePostLink(mediaObject, currentMediaIndex).split("\\?")[0];
+
+            ArrayList<String> mediaUrls = new ArrayList<>();
+            int size = post.getCarouselSize();
+            for (int index = 0; index < size; index++) {
+                try {
+                    String url = post.getMediaAt(index).getMediaLink();
+                    if (url != null) mediaUrls.add(url);
+                } catch (Exception e) {
+                    Logger.printException(() -> "Send to Link Diary: no media link for a slide", e);
+                }
             }
-            if(!PikoUtils.isAppInstalledAndEnabled(packageName)){
-                PikoUtils.toast(str("piko_external_downloader_package_name_not_found"));
-                return;
-            }
-            String link = Links.generatePostLink(mediaObject, currentMediaIndex);
-            PikoUtils.shareTextToPackageName(link, packageName);
+
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.setType("text/plain");
+            intent.setPackage(LINK_DIARY_PACKAGE);
+            intent.putExtra(Intent.EXTRA_TEXT, link);
+            intent.putExtra(EXTRA_CAPTION, optional(post::getDescriptionText));
+            intent.putExtra(EXTRA_UPLOADER, optional(() -> post.getUserData().getUsername()));
+            intent.putStringArrayListExtra(EXTRA_MEDIA_URLS, mediaUrls);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            // Started directly rather than checked first: package visibility rules would
+            // hide an installed Link Diary from an "is it installed" query.
+            Utils.getContext().startActivity(intent);
+        } catch (ActivityNotFoundException e) {
+            Utils.showToastShort(str("piko_link_diary_not_installed"));
         } catch (Exception e){
             PikoUtils.logger(e);
-            Logger.printException(() -> "Error at externalDownloader", e);
+            Logger.printException(() -> "Error at sendToLinkDiary", e);
+            Utils.showToastShort(e.getMessage());
+        }
+    }
+
+    private interface Getter { String get() throws Exception; }
+
+    /** The caption or author is nice to have: a post is still worth sending without it. */
+    private static String optional(Getter getter) {
+        try {
+            String value = getter.get();
+            return value == null ? "" : value;
+        } catch (Exception e) {
+            Logger.printException(() -> "Send to Link Diary: optional field unavailable", e);
+            return "";
         }
     }
 }

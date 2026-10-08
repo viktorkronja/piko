@@ -237,7 +237,7 @@ public class SettingsStatus {
 
         FLAGS.put(str("piko_category_download_media"),SettingsStatus.downloadMedia);
         FLAGS.put(str("piko_download_voice_media"),SettingsStatus.downloadVoiceMessage);
-        FLAGS.put(str("piko_download_with_external_downloader"),SettingsStatus.downloadWithExternalDownloader);
+        FLAGS.put(str("piko_send_to_link_diary"),SettingsStatus.downloadWithExternalDownloader);
         FLAGS.put(str("piko_more_profile_options"),SettingsStatus.moreOptionsOnProfile);
         FLAGS.put(str("piko_enable_more_options_on_post"),SettingsStatus.moreOptionsOnPost);
         FLAGS.put(str("piko_stories_audio_autoplay"),SettingsStatus.storiesAudioAutoplay);
@@ -284,7 +284,7 @@ public class SettingsStatus {
         FLAGS.put(str("piko_custom_sharing_domain"),SettingsStatus.customSharingDomain);
         FLAGS.put(str("piko_open_links_externally"),SettingsStatus.openLinksExternally);
         FLAGS.put(str("piko_download_voice_media"),SettingsStatus.downloadVoiceMessage);
-        FLAGS.put(str("piko_download_with_external_downloader"),SettingsStatus.downloadWithExternalDownloader);
+        FLAGS.put(str("piko_send_to_link_diary"),SettingsStatus.downloadWithExternalDownloader);
         FLAGS.put(str("piko_more_profile_options"),SettingsStatus.moreOptionsOnProfile);
         FLAGS.put(str("piko_enable_more_options_on_post"),SettingsStatus.moreOptionsOnPost);
         FLAGS.put(str("piko_enable_more_options_on_post"),SettingsStatus.storiesAudioAutoplay);
@@ -292,7 +292,7 @@ public class SettingsStatus {
         FLAGS.put(str("piko_disable_ads"),SettingsStatus.disableAds);
         FLAGS.put(str("piko_category_download_media"),SettingsStatus.downloadMedia);
         FLAGS.put(str("piko_download_voice_media"),SettingsStatus.downloadVoiceMessage);
-        FLAGS.put(str("piko_download_with_external_downloader"),SettingsStatus.downloadWithExternalDownloader);
+        FLAGS.put(str("piko_send_to_link_diary"),SettingsStatus.downloadWithExternalDownloader);
         FLAGS.put(str("piko_more_profile_options"),SettingsStatus.moreOptionsOnProfile);
         FLAGS.put(str("piko_enable_more_options_on_post"),SettingsStatus.moreOptionsOnPost);
         FLAGS.put(str("piko_enable_more_options_on_post"),SettingsStatus.storiesAudioAutoplay);

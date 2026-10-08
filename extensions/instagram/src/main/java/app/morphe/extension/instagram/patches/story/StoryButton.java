@@ -51,7 +51,7 @@ public class StoryButton {
             }
         }
         if(Pref.downloadWithExternalDownloader()){
-            buttonList.add(str("piko_download_with_external_downloader"));
+            buttonList.add(str("piko_send_to_link_diary"));
         }
 
         return buttonList;
@@ -68,8 +68,8 @@ public class StoryButton {
             } else if (buttonText.equals(str("piko_debug"))) {
                 ObjectBrowser.browseObject(ctx, new MediaData(mediaObject));
                 return true;
-            } else if (buttonText.equals(str("piko_download_with_external_downloader"))) {
-                DownloadUtils.externalDownloader(mediaObject,0);
+            } else if (buttonText.equals(str("piko_send_to_link_diary"))) {
+                DownloadUtils.sendToLinkDiary(mediaObject,0);
 
                 return true;
             }
