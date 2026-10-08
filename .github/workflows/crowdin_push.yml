@@ -11,6 +11,7 @@ on:
 jobs:
   push:
     name: Push strings
+    if: github.repository == 'crimera/piko'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout dev

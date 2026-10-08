@@ -1,0 +1,47 @@
+name: Build patches (Link Diary)
+
+# This fork's build: every push to main publishes a release with the .mpp, to add in
+# Morphe Manager as a local source (Sources -> + -> Local). Upstream's Release workflow
+# needs signing secrets this fork doesn't have.
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+  packages: read
+
+jobs:
+  build:
+    if: github.repository != 'crimera/piko'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Java
+        uses: actions/setup-java@v5.6.0
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Build with Gradle
+        env:
+          # Reads the Morphe patcher from GitHub Packages.
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: ./gradlew clean buildAndroid
+
+      - name: Publish release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          mpp=$(ls patches/build/libs/patches-*.mpp | grep -v -e sources -e javadoc | head -1)
+          tag="linkdiary-${GITHUB_RUN_NUMBER}"
+          cp "$mpp" "piko-linkdiary-${GITHUB_RUN_NUMBER}.mpp"
+          gh release create "$tag" "piko-linkdiary-${GITHUB_RUN_NUMBER}.mpp" \
+            --target "$GITHUB_SHA" \
+            --title "Piko + Send to Link Diary (build ${GITHUB_RUN_NUMBER})" \
+            --notes "Built from ${GITHUB_SHA}. In Morphe Manager: Sources -> + -> Local, pick this .mpp."

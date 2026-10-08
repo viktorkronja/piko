@@ -14,6 +14,7 @@ jobs:
       packages: write
       id-token: write
       attestations: write
+    if: github.repository == 'crimera/piko'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
